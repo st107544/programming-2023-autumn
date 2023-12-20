@@ -18,7 +18,7 @@ public:
 	int inversed(int el)
 	{
 		if (el == 0) { return -1; }
-		if (el == 1) { return 0; }
+		if (el == 1) { return 1; }
 		int i = 2;
 		while ((el * i) % 239 != 1) ++i;
 		return i;
@@ -101,9 +101,9 @@ public:
 	friend std::ostream& operator<<(std::ostream& stream, const Mod239& e);
 	friend std::istream& operator >> (std::istream& in, Mod239& num);
 
-	friend Mod239 operator+ (Mod239 num, Mod239 num2);
-	friend Mod239 operator- (Mod239 num, Mod239 num2);
-	friend Mod239 operator* (Mod239 num, Mod239 num2);
+	friend const Mod239 operator+ (const Mod239& num,const Mod239& num2);
+	friend const Mod239 operator- (const Mod239& num, const Mod239& num2);
+	friend const Mod239 operator* (const Mod239& num, const Mod239& num2);
 	friend Mod239 operator/ (Mod239 num, Mod239 num2);
 };
 
@@ -122,23 +122,23 @@ std::istream& operator >> (std::istream& in, Mod239& num)
 }
 
 
-Mod239 operator+ (Mod239 num, Mod239 num2)
+const Mod239 operator+ (const Mod239& num,const Mod239& num2)
 {
 	Mod239 k = num.el + num2.el;
 	return k.mod(k.el);
 }
-Mod239 operator- (Mod239 num, Mod239 num2)
+const Mod239 operator- (const Mod239& num, const Mod239& num2)
 {
 	Mod239 k = num.el - num2.el;
 	return k.mod(k.el);
 
 }
-Mod239 operator* (Mod239 num, Mod239 num2)
+const Mod239 operator* (const Mod239& num, const Mod239& num2)
 {
 	Mod239 k = num.el * num2.el;
 	return k.mod(k.el);
 }
-Mod239 operator/ (Mod239 num, Mod239 num2)
+ Mod239 operator/ (Mod239 num, Mod239 num2)
 {
 	if (num.el != 0)
 	{
@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
 	std::cout << a << std::endl;
 	std::cout << "a == 134 - " << (a == 134) << std::endl;
 	std::cout << "a >= 0 - " << (a >= 0) << std::endl;
-	std::cout << "a <= 0 - " << (a <= 0) << std::endl;
+	std::cout << "a <= 134 - " << (a <= 0) << std::endl;
 	std::cout << "a != 134 - " << (a != 134) << std::endl;
 	std::cout << "a > 0 - " << (a > 0) << std::endl;
 	std::cout << "a < 0 - " << (a < 0) << std::endl;
