@@ -1,38 +1,52 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <stdexcept>
 
 template <typename T>
-void customSort(std::vector<T>& vec) {
+void customSort(std::vector<T>& arr) {
     try {
-        if (vec.empty()) {
-            throw std::runtime_error("Vector is empty. Cannot sort.");
+        if (arr.empty()) {
+            throw std::invalid_argument("Vector is empty. Cannot sort.");
         }
 
-        std::sort(vec.begin(), vec.end());
+        std::sort(arr.begin(), arr.end());
 
-        // Имитация исключения при сортировке
-        if (vec.size() > 1 && vec[0] > vec[1]) {
-            throw std::runtime_error("Custom exception: Sorting failed.");
+        if (arr.size() > 1000) {
+            throw std::length_error("Vector size is too large. Maximum size allowed is 1000.");
         }
 
-        std::cout << "Sorted vector: ";
-        for (const auto& elem : vec) {
-            std::cout << elem << " ";
-        }
-        std::cout << std::endl;
+
+    }
+    catch (const std::out_of_range& e) {
+        std::cerr << "Out of range error: " << e.what() << std::endl;
+    }
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Invalid argument error: " << e.what() << std::endl;
+    }
+    catch (const std::length_error& e) {
+        std::cerr << "Length error: " << e.what() << std::endl;
     }
     catch (const std::exception& e) {
-        std::cerr << "Exception caught: " << e.what() << std::endl;
+        std::cerr << "An error occurred: " << e.what() << std::endl;
     }
 }
 
 int main() {
-    std::vector<int> pusto = { };
-    std::vector<int> numbers = {2};
+    std::vector<int> intVec = { 64, 34, 25, 12, 22, 11, 90 };
 
-    customSort(pusto);
-    customSort(numbers);
+    try {
+        customSort(intVec);
+
+        for (const auto& num : intVec) {
+            std::cout << num << " ";
+        }
+        std::cout << std::endl;
+
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception caught in main: " << e.what() << std::endl;
+    }
 
     return 0;
 }

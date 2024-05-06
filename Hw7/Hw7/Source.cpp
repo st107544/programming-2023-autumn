@@ -1,7 +1,8 @@
-#include <iostream>
-#include <queue>
-#include <mutex>
-#include <condition_variable>
+#include <iostream> 
+#include <queue> 
+#include <mutex> 
+#include <thread> 
+#include <condition_variable> 
 
 template <typename T>
 class SafeQueue {
@@ -35,9 +36,7 @@ private:
     std::condition_variable cv_;
 };
 
-int main() {
-    SafeQueue<int> safeQueue;
-
+void test(SafeQueue<int>& safeQueue) {
     safeQueue.push(5);
     safeQueue.push(2);
     safeQueue.push(3);
@@ -51,6 +50,23 @@ int main() {
     if (!safeQueue.empty()) {
         std::cout << "Queue is not empty." << std::endl;
     }
+    else {
+        std::cout << "Queue is empty." << std::endl;
+    }
+
+   
+}
+
+int main() {
+    SafeQueue<int> safeQueue;
+
+    std::thread thread1(test, std::ref(safeQueue));
+    std::thread thread2(test, std::ref(safeQueue));
+    std::thread thread3(test, std::ref(safeQueue));
+
+    thread1.join();
+    thread2.join();
+    thread3.join();
 
     return 0;
 }
